@@ -1,10 +1,9 @@
 source "https://rubygems.org"
 
-gem "rake"
-
 group :development do
   gem "pry"
   gem "pry-byebug"
+  gem "solargraph"
 end
 
 group :test do

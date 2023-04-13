@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
-require 'tclmon'
-Tclmon.hello_world
+require_relative '../lib/tclmon'
+require 'pry'
+
+Tclmon.run
