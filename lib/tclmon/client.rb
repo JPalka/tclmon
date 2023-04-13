@@ -8,7 +8,7 @@ module Tclmon
       2 => '󰤢',
       3 => '󰤥',
       4 => '󰤨',
-      5 => '󰤨',
+      5 => '󰤨'
     }.freeze
 
     BATTERY_LEVEL = {
@@ -34,7 +34,7 @@ module Tclmon
       @config = config
     end
 
-    def get_system_status
+    def system_status
       api_name = 'GetSystemStatus'
       client = Net::HTTP.new(@config[:ip_address], @config[:port])
       client.start
