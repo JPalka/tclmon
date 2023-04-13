@@ -13,14 +13,17 @@ module Tclmon
     def load
       return {} unless File.exist?(config_path)
 
-      Config.default.merge(Psych.safe_load_file(config_path).transform_keys(&:to_sym))
+      Config.default.merge(
+        Psych.safe_load_file(config_path).transform_keys(&:to_sym)
+      )
     end
 
     def self.default
       {
         ip_address: '192.168.1.1',
         port: '80',
-        request_verification_key: ''
+        request_verification_key: '',
+        critical_battery_level: 20
       }
     end
   end

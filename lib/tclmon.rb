@@ -9,6 +9,6 @@ require 'json'
 module Tclmon
   def self.run
     @config = Config.new.load
-    Client.new(@config).system_status
+    Client.new(@config).get_system_status
   end
 end

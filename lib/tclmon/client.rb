@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'notifier'
+
 module Tclmon
   class Client
     SIGNAL_STRENGTH = {
@@ -34,7 +36,7 @@ module Tclmon
       @config = config
     end
 
-    def system_status
+    def get_system_status
       api_name = 'GetSystemStatus'
       client = Net::HTTP.new(@config[:ip_address], @config[:port])
       client.start
@@ -47,6 +49,7 @@ module Tclmon
         }
       )
       system_status = JSON.parse(system_status_response.body)['result']
+      check_battery_level(system_status['bat_cap'])
       print_status(system_status)
     end
 
@@ -57,6 +60,15 @@ module Tclmon
       print("#{NETWORK_TYPE[system_status['NetworkType']]} | ")
       print("#{BATTERY_LEVEL[system_status['bat_level']]} #{system_status['bat_cap']}% #{BATTERY_CHARGE[system_status['chg_state']]}")
       puts ''
+    end
+
+    def check_battery_level(current_charge)
+      return if current_charge.to_i > @config[:critical_battery_level]
+
+      Notifier.new.notify(
+        "battery level low: #{current_charge}%",
+        'critical'
+      )
     end
   end
 end
