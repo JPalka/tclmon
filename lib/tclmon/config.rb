@@ -13,7 +13,7 @@ module Tclmon
     def load
       return {} unless File.exist?(config_path)
 
-      Config.default.merge(Psych.safe_load_file(config_path))
+      Config.default.merge(Psych.safe_load_file(config_path).transform_keys(&:to_sym))
     end
 
     def self.default
