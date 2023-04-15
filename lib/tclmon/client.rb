@@ -49,7 +49,7 @@ module Tclmon
         }
       )
       system_status = JSON.parse(system_status_response.body)['result']
-      check_battery_level(system_status['bat_cap'])
+      check_battery_level(system_status['bat_cap'], system_status['chg_state'])
       print_status(system_status)
     end
 
@@ -62,7 +62,8 @@ module Tclmon
       puts ''
     end
 
-    def check_battery_level(current_charge)
+    def check_battery_level(current_charge, charge_state)
+      return if charge_state.to_i.zero?
       return if current_charge.to_i > @config[:critical_battery_level]
 
       Notifier.new.notify(
